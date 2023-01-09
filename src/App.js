@@ -28,8 +28,7 @@ export default function App() {
     e.preventDefault();
 
     const noteToAdd = {
-      title: newNote,
-      body: newNote,
+      content: newNote,
       userId: 1,
     };
 
@@ -51,7 +50,6 @@ export default function App() {
       <h1>NOTES</h1>
       {loading ? "Cargando..." : ""}
       <ol>
-        {console.log(notes)}
         {notes.map((note) => (
           <Note key={note.id} {...note} />
         ))}

@@ -1,19 +1,17 @@
 import axios from "axios";
-
-export const create = ({ title, body, userId }) => {
-  return axios
-    .post("https://jsonplaceholder.typicode.com/posts", { title, body, userId })
-    .then((response) => {
-      const { data } = response;
-      return data;
-    });
-};
+const baseUrl = "http://localhost:3001/api/notes";
 
 export const getAll = () => {
-  return axios
-    .get("https://jsonplaceholder.typicode.com/posts")
-    .then((response) => {
-      const { data } = response;
-      return data;
-    });
+  const request = axios.get(baseUrl);
+  return request.then((res) => res.data);
+};
+
+export const create = (newObject) => {
+  const request = axios.post(baseUrl, newObject);
+  return request.then((response) => response.data);
+};
+
+export const update = (id, newObject) => {
+  const request = axios.put(`${baseUrl}/${id}`, newObject);
+  return request.then((response) => response.data);
 };
