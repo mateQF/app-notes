@@ -1,17 +1,17 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { Note } from "./Note";
+import { Note } from "./components/Note";
 import {
   create as createNote,
   getAll as getAllNotes,
-  update as updateNote,
   setToken,
 } from "./services/notes";
 import { login } from "./services/login";
+import LoginForm from "./components/LoginForm";
+import CreateNoteForm from "./components/CreateNoteForm";
 
 export default function App() {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState("");
   const [error, setError] = useState("");
 
   const [username, setUsername] = useState("");
@@ -25,27 +25,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedNoteAppUser")
-    const user = JSON.parse(loggedUserJSON)
-    setUser(user)
-  }, [])
+    const loggedUserJSON = window.localStorage.getItem("loggedNoteAppUser");
+    const user = JSON.parse(loggedUserJSON);
+    setUser(user);
+  }, []);
 
-  const handleChange = (e) => {
-    setNewNote(e.target.value);
-  };
-
-  const addNote = (e) => {
-    e.preventDefault();
-
-    const noteToAdd = {
-      content: newNote,
-      important: Math.random() > 0.5,
-    };
-
+  const addNote = (noteToAdd) => {
     createNote(noteToAdd)
       .then((newNote) => {
         setNotes([...notes, newNote]);
-        setNewNote("");
       })
       .catch((err) => {
         console.log(err);
@@ -62,10 +50,8 @@ export default function App() {
         password,
       });
 
-      window.localStorage.setItem(
-        'loggedNoteAppUser', JSON.stringify(user)
-      )
-      setToken(user.token)
+      window.localStorage.setItem("loggedNoteAppUser", JSON.stringify(user));
+      setToken(user.token);
 
       setUser(user);
       setUsername("");
@@ -79,54 +65,28 @@ export default function App() {
   };
 
   const handleLogOut = () => {
-    setUser(null)
-    setToken(user.token)
-    window.localStorage.removeItem('loggedNoteAppUser')
-  }
-
-  const renderLoginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          placeholder="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          placeholder="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button>Login</button>
-    </form>
-  );
-
-  const renderCreateNoteForm = () => (
-    <>
-      <form onSubmit={addNote}>
-        <input
-          type="text"
-          onChange={handleChange}
-          value={newNote}
-          placeholder="Note content"
-        />
-        <button>Create note</button>
-      </form>
-      <button onClick={handleLogOut}>Logout</button>
-    </>
-  );
+    setUser(null);
+    setToken(user.token);
+    window.localStorage.removeItem("loggedNoteAppUser");
+  };
 
   return (
     <div>
       <h1>NOTES APP</h1>
-      {user ? renderCreateNoteForm() : renderLoginForm()}
+      {user ? (
+        <CreateNoteForm 
+          addNote={addNote}
+          handleLogOut={handleLogOut}
+        />
+      ) : (
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+        />
+      )}
       <ol>
         {notes.map((note) => (
           <Note key={note.id} {...note} />
