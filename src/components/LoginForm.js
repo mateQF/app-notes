@@ -1,5 +1,7 @@
 import React from "react";
-import Toggleable from "./Toggleable";
+import PropTypes from 'prop-types'
+
+import {Toggleable} from "./Toggleable";
 export default function LoginForm({
   handleSubmit,
   handlePasswordChange,
@@ -34,4 +36,12 @@ export default function LoginForm({
       </div>
     </Toggleable>
   );
+}
+
+LoginForm.propTypes = {
+  handleSubmit : PropTypes.func.isRequired,
+  username : PropTypes.string.isRequired,
+  password : PropTypes.string.isRequired,
+  handlePasswordChange : PropTypes.func.isRequired,
+  handleUsernameChange : PropTypes.func.isRequired
 }

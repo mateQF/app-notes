@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import Toggleable from "./Toggleable";
+import React, { useState, useRef } from "react";
+import { Toggleable } from "./Toggleable";
 
 export default function CreateNoteForm({ handleLogOut, addNote }) {
   const [newNote, setNewNote] = useState("");
+  const toggleableRef = useRef();
 
   const handleChange = (e) => {
     setNewNote(e.target.value);
@@ -18,11 +19,12 @@ export default function CreateNoteForm({ handleLogOut, addNote }) {
 
     addNote(noteToAdd);
     setNewNote("");
+    toggleableRef.current.toggleVisibility();
   };
 
   return (
     <>
-      <Toggleable buttonLabel={"Create a note"}>
+      <Toggleable buttonLabel={"Create a note"} ref={toggleableRef}>
         <h2>Create a new note</h2>
         <form onSubmit={handleSubmit}>
           <input
