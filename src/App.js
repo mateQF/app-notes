@@ -4,6 +4,7 @@ import { Note } from "./components/Note";
 import {
   create as createNote,
   getAll as getAllNotes,
+  update as updateNote,
   setToken,
 } from "./services/notes";
 import { login } from "./services/login";
@@ -40,6 +41,18 @@ export default function App() {
         setError(err);
       });
   };
+
+  const toggleImportanceOf = (id) => {
+    const note = notes.find((note) => note.id === id);
+    const changedNote = {...note, important : !note.important}
+
+    updateNote(id, changedNote).then(returnedNote => {
+      setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+    }).catch(err => {
+      setError(err)
+      console.log(err)
+    })
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -89,7 +102,7 @@ export default function App() {
       )}
       <ol>
         {notes.map((note) => (
-          <Note key={note.id} {...note} />
+          <Note key={note.id} note={note} toggleImportance={() => {toggleImportanceOf(note.id)}}/>
         ))}
       </ol>
       {error ? <span style={{ color: "red" }}>{error}</span> : ""}

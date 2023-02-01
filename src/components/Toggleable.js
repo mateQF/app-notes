@@ -33,3 +33,4 @@ Toggleable.displayName = 'Toggleable'
 Toggleable.propTypes = {
   buttonLabel: PropTypes.string
 }
+export default Toggleable
