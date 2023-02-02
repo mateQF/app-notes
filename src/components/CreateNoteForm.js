@@ -24,7 +24,7 @@ export default function CreateNoteForm({ handleLogOut, addNote }) {
 
   return (
     <>
-      <Toggleable buttonLabel={"Create a note"} ref={toggleableRef}>
+      <Toggleable buttonLabel={"Add a note"} ref={toggleableRef}>
         <h2>Create a new note</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -36,7 +36,7 @@ export default function CreateNoteForm({ handleLogOut, addNote }) {
           <button>Create note</button>
         </form>
       </Toggleable>
-      <button onClick={handleLogOut}>Logout</button>
+      <button onClick={handleLogOut} id="logout-button">Logout</button>
     </>
   );
 }

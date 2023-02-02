@@ -15,12 +15,18 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
+    "env": {
+      "cypress/globals" : true
+    },
     "extends": [
       "react-app",
       "react-app/jest"
+    ],"plugins": [ 
+      "cypress"
     ]
   },
   "browserslist": {
@@ -42,6 +48,8 @@
   "license": "ISC",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0"
+    "@testing-library/react": "^13.4.0",
+    "cypress": "^12.5.1",
+    "eslint-plugin-cypress": "^2.12.1"
   }
 }

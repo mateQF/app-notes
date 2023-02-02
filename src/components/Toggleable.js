@@ -18,7 +18,7 @@ export const Toggleable = forwardRef(({ children, buttonLabel = 'Default value'}
   return (
     <div>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{buttonLabel}</button>
+        <button onClick={toggleVisibility} id="button-label">{buttonLabel}</button>
       </div>
       <div style={showWhenVisible}>
         {children}

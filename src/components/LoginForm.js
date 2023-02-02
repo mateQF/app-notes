@@ -12,7 +12,7 @@ export default function LoginForm({
   return (
     <Toggleable buttonLabel={'Go login!'}>
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} data-test-id='login-form'>
           <div>
             <input
               type="text"
@@ -31,7 +31,7 @@ export default function LoginForm({
               onChange={handlePasswordChange}
             />
           </div>
-          <button>Login</button>
+          <button id="form-login-button">Login</button>
         </form>
       </div>
     </Toggleable>
