@@ -60,7 +60,7 @@ export default function App() {
     try {
       const user = await login({
         username,
-        password,
+        password
       });
 
       window.localStorage.setItem("loggedNoteAppUser", JSON.stringify(user));
@@ -105,7 +105,9 @@ export default function App() {
           <Note key={note.id} note={note} toggleImportance={() => {toggleImportanceOf(note.id)}}/>
         ))}
       </ol>
-      {error ? <span style={{ color: "red" }}>{error}</span> : ""}
+      <div className="error">
+        {error ? <span style={{ color: "red" }}>{error}</span> : ""}
+      </div>
     </div>
   );
 }
