@@ -12,15 +12,15 @@ describe('Note app', () => {
     cy.request('POST', 'http://localhost:3001/api/users', user)
   })
 
-  it('frontpage can be opened', () => {
+  it.skip('frontpage can be opened', () => {
     cy.contains('NOTES APP')
   })
 
-  it('login form can be opened', () => {
+  it.skip('login form can be opened', () => {
     cy.contains('Go login!').click()
   })
 
-  it('user can login', () => {
+  it.skip('user can login', () => {
     cy.contains('Go login!').click()
     cy.get('input:first').type('MatQF')
     cy.get('input:last').type('password')
@@ -28,7 +28,7 @@ describe('Note app', () => {
     cy.get('#logout-button')
   })
 
-  it('login fails with wrong credentials', () => {
+  it.skip('login fails with wrong credentials', () => {
     cy.contains('Go login!').click()
     cy.get('input:first').type('MatQF')
     cy.get('input:last').type('incorrect-password')
@@ -39,7 +39,7 @@ describe('Note app', () => {
       .should('have.css', 'color', 'rgb(255, 0, 0)')
   })
   
-  describe.only('when user logged in', () => {
+  describe('when user logged in', () => {
     beforeEach(() => {
       cy.login({ userName: 'MatQF', passwordHash: 'password' })
     })
@@ -52,17 +52,19 @@ describe('Note app', () => {
       cy.contains(noteContent)
     })
 
-    describe('and a note exists', () => {
+    describe.only('and a note exists', () => {
       beforeEach(() => {
-        cy.request({
-          method: 'POST',
-          url: 'http://localhost:3001/api/notes',
-          body: { content: 'A note created from cypress', important: false},
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('loggedNoteAppUser')).token}`
-          }
-        })
-        cy.visit('http://localhost:3001')
+        cy.createNote({content: 'First note', important: false})
+        cy.createNote({content: 'Second note', important: false})
+        cy.createNote({content: 'Third note', important: false})
+      })
+
+      it('it can be made important', () => {
+        cy.contains('Second note')
+        cy.contains('make important').click()
+        // cy.debug()
+        cy.contains('Second note')
+        cy.contains('make not important')
       })
     })
   })

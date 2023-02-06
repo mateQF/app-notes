@@ -29,6 +29,9 @@ export default function App() {
     const loggedUserJSON = window.localStorage.getItem("loggedNoteAppUser");
     const user = JSON.parse(loggedUserJSON);
     setUser(user);
+    if(user) {
+      setToken(user.token)
+    }
   }, []);
 
   const addNote = (noteToAdd) => {
@@ -87,10 +90,17 @@ export default function App() {
     <div>
       <h1>NOTES APP</h1>
       {user ? (
-        <CreateNoteForm 
-          addNote={addNote}
-          handleLogOut={handleLogOut}
-        />
+        <>
+          <CreateNoteForm 
+            addNote={addNote}
+            handleLogOut={handleLogOut}
+            />
+            <ol>
+              {notes.map((note) => (
+                <Note key={note.id} note={note} toggleImportance={() => {toggleImportanceOf(note.id)}}/>
+              ))}
+            </ol>
+          </>
       ) : (
         <LoginForm
           username={username}
@@ -100,11 +110,6 @@ export default function App() {
           handleSubmit={handleLogin}
         />
       )}
-      <ol>
-        {notes.map((note) => (
-          <Note key={note.id} note={note} toggleImportance={() => {toggleImportanceOf(note.id)}}/>
-        ))}
-      </ol>
       <div className="error">
         {error ? <span style={{ color: "red" }}>{error}</span> : ""}
       </div>
